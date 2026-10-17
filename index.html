@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kannamma — Continuous Maternal Healthcare Intelligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --rose:      #C8877A;
+  --rose-lt:   #E8B4AC;
+  --blush:     #F5E8E6;
+  --plum:      #2A1525;
+  --plum-mid:  #4A2040;
+  --lavender:  #C4A8D4;
+  --lav-lt:    #EDE4F5;
+  --gold:      #B8906A;
+  --cream:     #FEFAF8;
+  --warm-gray: #8A7A82;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  color: var(--plum);
+  overflow-x: hidden;
+}
+
+/* ── NAV ────────────────────────────────────────── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 1.4rem 3rem;
+  display: flex; align-items: center; justify-content: space-between;
+  transition: background 0.4s, backdrop-filter 0.4s;
+}
+nav.scrolled {
+  background: rgba(254,250,248,0.88);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(200,135,122,0.15);
+}
+.nav-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem; font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--plum);
+  text-decoration: none;
+  display: flex; flex-direction: column;
+}
+.nav-logo span { color: var(--rose); }
+.nav-logo small {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.52rem; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--warm-gray);
+  font-weight: 400; margin-top: -2px;
+}
+.nav-links {
+  display: flex; gap: 2.4rem; list-style: none;
+}
+.nav-links a {
+  font-size: 0.82rem; letter-spacing: 0.12em;
+  text-transform: uppercase; text-decoration: none;
+  color: var(--warm-gray);
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--rose); }
+.nav-cta {
+  padding: 0.6rem 1.6rem;
+  border: 1px solid var(--rose);
+  border-radius: 100px;
+  font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--rose); text-decoration: none;
+  transition: background 0.3s, color 0.3s, box-shadow 0.3s;
+}
+.nav-cta:hover { background: var(--rose); color: #fff; box-shadow: 0 4px 20px rgba(200,135,122,0.35); }
+
+/* ── MOBILE MENU ─────────────────────────────────── */
+.nav-hamburger {
+  display: none; background: none; border: none; cursor: pointer;
+  width: 32px; height: 24px; position: relative; z-index: 110;
+}
+.nav-hamburger span {
+  display: block; width: 100%; height: 1.5px;
+  background: var(--plum); border-radius: 2px;
+  position: absolute; left: 0;
+  transition: transform 0.3s, opacity 0.3s;
+}
+.nav-hamburger span:nth-child(1) { top: 2px; }
+.nav-hamburger span:nth-child(2) { top: 11px; }
+.nav-hamburger span:nth-child(3) { top: 20px; }
+.nav-hamburger.active span:nth-child(1) { top: 11px; transform: rotate(45deg); }
+.nav-hamburger.active span:nth-child(2) { opacity: 0; }
+.nav-hamburger.active span:nth-child(3) { top: 11px; transform: rotate(-45deg); }
+.mobile-menu {
+  display: none; position: fixed; inset: 0; z-index: 99;
+  background: rgba(254,250,248,0.95); backdrop-filter: blur(30px);
+  flex-direction: column; align-items: center; justify-content: center; gap: 2rem;
+  opacity: 0; transform: translateY(-10px);
+  transition: opacity 0.4s, transform 0.4s;
+}
+.mobile-menu.open { display: flex; opacity: 1; transform: translateY(0); }
+.mobile-menu a {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem; font-weight: 400; color: var(--plum);
+  text-decoration: none; transition: color 0.2s;
+}
+.mobile-menu a:hover { color: var(--rose); }
+.mobile-menu .mobile-cta {
+  margin-top: 1rem; padding: 0.8rem 2.4rem;
+  border: 1px solid var(--rose); border-radius: 100px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--rose); transition: all 0.3s;
+}
+.mobile-menu .mobile-cta:hover { background: var(--rose); color: #fff; }
+
+/* ── HERO ───────────────────────────────────────── */
+#hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 0 4rem;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #FFF8F6 0%, #FEF0ED 20%, #F8E8F0 40%, #F0DDE8 60%, #EDE0F2 80%, #F5E8F5 100%);
+}
+
+/* ── Ambient atmospheric glow layers ── */
+.hero-glow-1 {
+  position: absolute; width: 1100px; height: 1100px;
+  right: -250px; top: -200px;
+  background: radial-gradient(circle, rgba(232,180,172,0.4) 0%, rgba(196,168,212,0.18) 35%, transparent 65%);
+  border-radius: 50%; filter: blur(100px);
+  pointer-events: none; z-index: 0;
+  animation: glowDrift 14s ease-in-out infinite;
+}
+.hero-glow-2 {
+  position: absolute; width: 800px; height: 800px;
+  right: 5%; bottom: -200px;
+  background: radial-gradient(circle, rgba(200,135,122,0.22) 0%, rgba(196,168,212,0.12) 40%, transparent 65%);
+  border-radius: 50%; filter: blur(120px);
+  pointer-events: none; z-index: 0;
+  animation: glowDrift 18s ease-in-out infinite reverse;
+}
+.hero-glow-3 {
+  position: absolute; width: 500px; height: 500px;
+  left: 25%; top: 15%;
+  background: radial-gradient(circle, rgba(232,180,172,0.12) 0%, transparent 70%);
+  border-radius: 50%; filter: blur(70px);
+  pointer-events: none; z-index: 0;
+  animation: glowDrift 10s ease-in-out infinite 2s;
+}
+/* Extra glow behind artwork area */
+.hero-glow-4 {
+  position: absolute; width: 900px; height: 900px;
+  right: -100px; top: 50%; transform: translateY(-50%);
+  background: radial-gradient(ellipse, rgba(232,180,172,0.3) 0%, rgba(196,168,212,0.15) 30%, rgba(245,232,245,0.08) 50%, transparent 70%);
+  border-radius: 50%; filter: blur(80px);
+  pointer-events: none; z-index: 0;
+  animation: symbolGlowPulse 6s ease-in-out infinite;
+}
+/* Warm fog layer */
+.hero-glow-5 {
+  position: absolute; width: 1400px; height: 600px;
+  right: -300px; top: 50%; transform: translateY(-50%);
+  background: radial-gradient(ellipse 100% 80%, rgba(254,240,237,0.5) 0%, transparent 70%);
+  pointer-events: none; z-index: 1;
+  filter: blur(40px);
+}
+@keyframes glowDrift {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.8; }
+  33% { transform: translate(20px, -30px) scale(1.06); opacity: 1; }
+  66% { transform: translate(-15px, 15px) scale(0.96); opacity: 0.7; }
+}
+
+/* ── Mother-baby artwork — absolute, atmospheric, embedded ── */
+.hero-artwork {
+  position: absolute;
+  right: -8%; top: 50%;
+  transform: translateY(-50%);
+  width: 60vw; max-width: 950px; min-width: 500px;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  animation: artworkReveal 2.2s 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+@keyframes artworkReveal {
+  0% { opacity: 0; transform: translateY(-48%) scale(0.97); filter: blur(15px); }
+  100% { opacity: 1; transform: translateY(-50%) scale(1); filter: blur(0px); }
+}
+.hero-artwork img {
+  width: 100%; height: auto;
+  opacity: 0.78;
+  mask-image:
+    radial-gradient(ellipse 78% 82% at 48% 50%, black 25%, rgba(0,0,0,0.6) 45%, rgba(0,0,0,0.2) 62%, transparent 78%);
+  -webkit-mask-image:
+    radial-gradient(ellipse 78% 82% at 48% 50%, black 25%, rgba(0,0,0,0.6) 45%, rgba(0,0,0,0.2) 62%, transparent 78%);
+  filter:
+    drop-shadow(0 0 80px rgba(200,135,122,0.25))
+    drop-shadow(0 0 160px rgba(196,168,212,0.15))
+    drop-shadow(0 0 40px rgba(232,180,172,0.2));
+  mix-blend-mode: multiply;
+}
+/* Soft glow aura behind artwork */
+.artwork-aura {
+  position: absolute; inset: -20%;
+  background: radial-gradient(ellipse 70% 75% at 48% 50%,
+    rgba(232,180,172,0.28) 0%,
+    rgba(196,168,212,0.14) 30%,
+    rgba(245,232,245,0.06) 50%,
+    transparent 70%);
+  border-radius: 50%;
+  filter: blur(50px);
+  z-index: -1;
+  animation: symbolGlowPulse 5s ease-in-out infinite;
+}
+/* Rim light accent */
+.artwork-rim {
+  position: absolute; inset: -10%;
+  background: radial-gradient(ellipse 60% 65% at 52% 48%,
+    rgba(255,255,255,0.06) 0%,
+    transparent 60%);
+  border-radius: 50%;
+  z-index: 1;
+  pointer-events: none;
+  animation: symbolGlowPulse 7s ease-in-out infinite 2s;
+}
+@keyframes symbolGlowPulse {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.04); }
+}
+
+/* Particle canvas */
+#particles { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+
+/* ── Left content ── */
+.hero-left {
+  position: relative; z-index: 4;
+  max-width: 520px;
+  padding-right: 2rem;
+}
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--rose); margin-bottom: 1.8rem;
+  opacity: 0; transform: translateY(20px);
+  animation: fadeUp 0.8s 0.3s forwards;
+}
+.hero-eyebrow::before {
+  content: '';
+  display: inline-block; width: 28px; height: 1px;
+  background: var(--rose);
+}
+.hero-h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.8rem, 4.8vw, 4.4rem);
+  font-weight: 400; line-height: 1.12;
+  color: var(--plum); margin-bottom: 1.6rem;
+  opacity: 0; transform: translateY(30px);
+  animation: fadeUp 0.9s 0.5s forwards;
+}
+.hero-h1 em { font-style: italic; color: var(--rose); }
+.hero-sub {
+  font-size: 0.98rem; line-height: 1.8;
+  color: var(--warm-gray); max-width: 420px;
+  margin-bottom: 2.6rem;
+  opacity: 0; transform: translateY(30px);
+  animation: fadeUp 0.9s 0.7s forwards;
+}
+.hero-btns {
+  display: flex; gap: 1rem; flex-wrap: wrap;
+  opacity: 0; transform: translateY(30px);
+  animation: fadeUp 0.9s 0.9s forwards;
+}
+.btn-primary {
+  padding: 0.85rem 2.2rem;
+  background: var(--plum);
+  color: #fff; border-radius: 100px;
+  font-size: 0.85rem; letter-spacing: 0.08em;
+  text-transform: uppercase; text-decoration: none;
+  border: none; cursor: pointer;
+  transition: background 0.25s, transform 0.2s;
+  display: inline-flex; align-items: center; gap: 0.5rem;
+}
+.btn-primary:hover { background: var(--rose); transform: translateY(-2px); }
+.btn-secondary {
+  padding: 0.85rem 2.2rem;
+  border: 1px solid rgba(200,135,122,0.4);
+  color: var(--plum); border-radius: 100px;
+  font-size: 0.85rem; letter-spacing: 0.08em;
+  text-transform: uppercase; text-decoration: none;
+  background: rgba(254,250,248,0.5); cursor: pointer;
+  backdrop-filter: blur(12px);
+  transition: border-color 0.3s, transform 0.2s, box-shadow 0.3s, background 0.3s;
+  display: inline-flex; align-items: center; gap: 0.6rem;
+}
+.btn-secondary:hover {
+  border-color: var(--rose); color: var(--rose);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(200,135,122,0.2);
+  background: rgba(254,250,248,0.7);
+}
+.login-icon {
+  width: 18px; height: 18px;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+
+/* Hero trust line */
+.hero-trust {
+  display: flex; align-items: center; gap: 0.6rem;
+  margin-top: 3rem;
+  opacity: 0; animation: fadeUp 0.9s 1.2s forwards;
+}
+.hero-trust-icon {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: rgba(200,135,122,0.12);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.75rem;
+}
+.hero-trust span {
+  font-size: 0.78rem; color: var(--warm-gray); line-height: 1.4;
+}
+
+/* (stat badges removed for cleaner hero) */
+
+/* Scroll indicator */
+.scroll-ind {
+  position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
+  font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--warm-gray);
+  opacity: 0; animation: fadeUp 1s 1.6s forwards;
+  z-index: 5;
+}
+.scroll-line {
+  width: 1px; height: 40px;
+  background: linear-gradient(to bottom, var(--rose), transparent);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+@keyframes scrollPulse {
+  0%, 100% { opacity: 1; transform: scaleY(1); transform-origin: top; }
+  50% { opacity: 0.4; transform: scaleY(0.6); transform-origin: top; }
+}
+
+@keyframes fadeUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+/* ── SECTION BASE ───────────────────────────────── */
+section {
+  position: relative;
+  overflow: hidden;
+}
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.reveal.visible {
+  opacity: 1; transform: translateY(0);
+}
+.reveal-delay-1 { transition-delay: 0.15s; }
+.reveal-delay-2 { transition-delay: 0.3s; }
+.reveal-delay-3 { transition-delay: 0.45s; }
+
+/* ── SECTION LABELS ─────────────────────────────── */
+.section-eyebrow {
+  font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--rose); display: flex; align-items: center; gap: 0.6rem;
+  margin-bottom: 1.2rem;
+}
+.section-eyebrow::before {
+  content: ''; width: 22px; height: 1px; background: var(--rose);
+}
+.section-h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 400; line-height: 1.2;
+  color: var(--plum);
+}
+.section-h2 em { font-style: italic; color: var(--rose); }
+
+/* ── PROBLEM SECTION ────────────────────────────── */
+#problem {
+  padding: 9rem 4rem;
+  background: var(--plum);
+  color: #fff;
+}
+#problem .section-eyebrow { color: var(--rose-lt); }
+#problem .section-eyebrow::before { background: var(--rose-lt); }
+#problem .section-h2 { color: #fff; }
+#problem .section-h2 em { color: var(--rose-lt); }
+
+.problem-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  align-items: center;
+  margin-top: 4rem;
+}
+.problem-text p {
+  font-size: 1.05rem; line-height: 1.85;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 1.5rem;
+}
+.problem-stats {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;
+}
+.pstat {
+  padding: 1.8rem;
+  border: 1px solid rgba(232,180,172,0.2);
+  border-radius: 20px;
+  transition: border-color 0.3s, transform 0.3s;
+}
+.pstat:hover {
+  border-color: rgba(200,135,122,0.5);
+  transform: translateY(-4px);
+}
+.pstat .n {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.8rem; font-weight: 300;
+  color: var(--rose-lt); line-height: 1;
+  margin-bottom: 0.5rem;
+}
+.pstat .l {
+  font-size: 0.82rem; line-height: 1.5;
+  color: rgba(255,255,255,0.45);
+}
+
+/* Timeline */
+.anc-timeline {
+  margin-top: 3.5rem;
+}
+.timeline-label {
+  font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase;
+  color: rgba(255,255,255,0.35); margin-bottom: 1rem;
+}
+.timeline-bar {
+  position: relative; height: 4px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 100px; overflow: visible;
+}
+.timeline-fill {
+  height: 100%; width: 0;
+  background: linear-gradient(90deg, var(--rose), var(--lavender));
+  border-radius: 100px;
+  transition: width 1.5s cubic-bezier(0.4,0,0.2,1);
+}
+.timeline-dots {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  width: 100%; display: flex; justify-content: space-between;
+}
+.tdot {
+  width: 12px; height: 12px; border-radius: 50%;
+  background: var(--plum);
+  border: 2px solid rgba(255,255,255,0.15);
+  position: relative;
+  transition: border-color 0.3s, transform 0.3s;
+}
+.tdot.anc { border-color: var(--rose); background: var(--rose); }
+.tdot.gap {
+  border-color: rgba(255,255,255,0.15);
+  animation: gapPulse 2s ease-in-out infinite;
+}
+@keyframes gapPulse {
+  0%, 100% { border-color: rgba(255,100,100,0.3); }
+  50% { border-color: rgba(255,100,100,0.8); transform: scale(1.3); }
+}
+.tdot-label {
+  position: absolute; top: 18px; left: 50%; transform: translateX(-50%);
+  font-size: 0.6rem; white-space: nowrap; color: rgba(255,255,255,0.4);
+}
+.tdot.anc .tdot-label { color: var(--rose-lt); }
+
+/* ── RING SECTION — CINEMATIC SHOWCASE ──────────── */
+#ring-reveal {
+  padding: 7rem 4rem 6rem;
+  background: linear-gradient(160deg, #FFF8F6 0%, #FEF0ED 30%, #F8E8F0 60%, #F0DDE8 85%, #EDE0F2 100%);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+/* Atmospheric fog layers */
+.ring-atmos-1 {
+  position: absolute; width: 700px; height: 700px;
+  left: -200px; top: -100px;
+  background: radial-gradient(circle, rgba(232,180,172,0.2) 0%, transparent 65%);
+  border-radius: 50%; filter: blur(80px);
+  pointer-events: none; z-index: 0;
+  animation: glowDrift 16s ease-in-out infinite;
+}
+.ring-atmos-2 {
+  position: absolute; width: 600px; height: 600px;
+  right: -150px; bottom: -150px;
+  background: radial-gradient(circle, rgba(196,168,212,0.18) 0%, transparent 65%);
+  border-radius: 50%; filter: blur(90px);
+  pointer-events: none; z-index: 0;
+  animation: glowDrift 20s ease-in-out infinite reverse;
+}
+.ring-atmos-3 {
+  position: absolute; width: 100%; height: 1px;
+  bottom: 0; left: 0;
+  background: linear-gradient(90deg, transparent, rgba(200,135,122,0.15), transparent);
+  pointer-events: none;
+}
+
+/* Split media showcase */
+.ring-showcase {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: center;
+  margin-top: 3rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* Left — floating product image */
+.ring-image-wrap {
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+}
+.ring-image-glow {
+  position: absolute; inset: -15%;
+  background: radial-gradient(ellipse, rgba(232,180,172,0.3) 0%, rgba(196,168,212,0.12) 40%, transparent 70%);
+  border-radius: 50%; filter: blur(50px);
+  z-index: 0;
+  animation: glowPulse 5s ease-in-out infinite;
+}
+.ring-large {
+  position: relative; z-index: 1;
+  width: 100%; max-width: 480px;
+  border-radius: 28px;
+  animation: ringFloatSlow 8s ease-in-out infinite;
+  filter:
+    drop-shadow(0 40px 80px rgba(200,135,122,0.35))
+    drop-shadow(0 15px 30px rgba(42,21,37,0.12));
+  transition: filter 0.4s;
+}
+.ring-image-wrap:hover .ring-large {
+  filter:
+    drop-shadow(0 50px 100px rgba(200,135,122,0.45))
+    drop-shadow(0 20px 40px rgba(42,21,37,0.18));
+}
+@keyframes ringFloatSlow {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-14px) scale(1.01); }
+}
+
+/* Right — cinematic video */
+.ring-video-wrap {
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+}
+.ring-video-glow {
+  position: absolute; inset: -12%;
+  background: radial-gradient(ellipse, rgba(196,168,212,0.22) 0%, rgba(232,180,172,0.12) 40%, transparent 70%);
+  border-radius: 50%; filter: blur(50px);
+  z-index: 0;
+  animation: glowPulse 6s ease-in-out infinite 1s;
+}
+.ring-video-frame {
+  position: relative; z-index: 1;
+  width: 100%; max-width: 480px;
+  border-radius: 24px;
+  overflow: hidden;
+  background: rgba(254,250,248,0.4);
+  border: 1px solid rgba(200,135,122,0.15);
+  backdrop-filter: blur(8px);
+  box-shadow:
+    0 30px 80px rgba(42,21,37,0.1),
+    0 8px 24px rgba(200,135,122,0.12),
+    inset 0 1px 0 rgba(255,255,255,0.4);
+  transition: box-shadow 0.4s, transform 0.3s;
+}
+.ring-video-frame:hover {
+  box-shadow:
+    0 40px 100px rgba(200,135,122,0.25),
+    0 12px 32px rgba(42,21,37,0.15),
+    inset 0 1px 0 rgba(255,255,255,0.5);
+  transform: translateY(-4px);
+}
+.ring-video {
+  display: block;
+  width: 100%; height: auto;
+  border-radius: 24px;
+  object-fit: cover;
+}
+/* Subtle glass rim overlay */
+.ring-video-frame::after {
+  content: '';
+  position: absolute; inset: 0;
+  border-radius: 24px;
+  border: 1px solid rgba(255,255,255,0.15);
+  pointer-events: none;
+}
+
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.06); }
+}
+
+/* Sensor pills — glassmorphism upgrade */
+.sensor-grid {
+  display: flex; justify-content: center; gap: 0.75rem; flex-wrap: wrap;
+  margin-top: 2.5rem;
+  position: relative; z-index: 1;
+}
+.sensor-chip {
+  display: flex; align-items: center; gap: 0.55rem;
+  padding: 0.6rem 1.2rem;
+  background: rgba(254,250,248,0.65);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(200,135,122,0.15);
+  border-radius: 100px;
+  font-size: 0.78rem; color: var(--plum);
+  box-shadow: 0 4px 16px rgba(42,21,37,0.04);
+  transition: border-color 0.3s, transform 0.25s, box-shadow 0.3s, background 0.3s;
+}
+.sensor-chip:hover {
+  border-color: var(--rose);
+  background: rgba(254,250,248,0.85);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 28px rgba(200,135,122,0.18);
+}
+.sensor-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--rose);
+  box-shadow: 0 0 8px 2px rgba(200,135,122,0.5);
+  animation: dotBlink 2s ease-in-out infinite;
+}
+@keyframes dotBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* ── ECOSYSTEM SECTION ──────────────────────────── */
+#ecosystem {
+  padding: 9rem 4rem;
+  background: linear-gradient(135deg, var(--lav-lt) 0%, var(--blush) 100%);
+  text-align: center;
+}
+.eco-flow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin-top: 5rem;
+  flex-wrap: nowrap;
+}
+.eco-node {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 0.9rem;
+  transition: transform 0.3s;
+}
+.eco-node:hover { transform: translateY(-8px); }
+.eco-icon {
+  width: 90px; height: 90px; border-radius: 28px;
+  background: rgba(254,250,248,0.9);
+  border: 1px solid rgba(200,135,122,0.2);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 12px 40px rgba(42,21,37,0.08);
+  transition: box-shadow 0.3s, border-color 0.3s;
+}
+.eco-icon svg {
+  width: 36px; height: 36px;
+  stroke: var(--rose); fill: none;
+  stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round;
+  filter: drop-shadow(0 0 6px rgba(200,135,122,0.3));
+}
+.eco-node:hover .eco-icon {
+  box-shadow: 0 20px 60px rgba(200,135,122,0.25);
+  border-color: rgba(200,135,122,0.4);
+}
+.eco-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem; font-weight: 500; color: var(--plum);
+}
+.eco-role {
+  font-size: 0.72rem; color: var(--warm-gray);
+  letter-spacing: 0.08em;
+}
+
+/* Connector */
+.eco-connector {
+  flex: 1; max-width: 80px;
+  display: flex; align-items: center; justify-content: center;
+  padding: 0 0.5rem;
+  position: relative; top: -20px;
+}
+.connector-line {
+  flex: 1; height: 1px;
+  background: linear-gradient(90deg, var(--rose-lt), var(--lavender));
+  position: relative;
+  overflow: visible;
+}
+.connector-dot {
+  position: absolute; top: 50%; left: 0;
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--rose);
+  transform: translateY(-50%);
+  box-shadow: 0 0 8px 2px rgba(200,135,122,0.6);
+  animation: connTravel 2.5s ease-in-out infinite;
+}
+.eco-connector:nth-child(4) .connector-dot { animation-delay: 0.8s; }
+.eco-connector:nth-child(6) .connector-dot { animation-delay: 1.6s; }
+@keyframes connTravel {
+  0% { left: 0; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { left: 100%; opacity: 0; }
+}
+
+/* ── AI SECTION ─────────────────────────────────── */
+#ai {
+  padding: 9rem 4rem;
+  background: var(--cream);
+}
+.ai-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 6rem; align-items: center;
+  margin-top: 4rem;
+}
+.ai-visual {
+  position: relative;
+}
+/* Heartbeat SVG */
+.hb-container {
+  background: var(--plum);
+  border-radius: 24px;
+  padding: 2.5rem;
+  position: relative;
+  overflow: hidden;
+}
+.hb-label {
+  font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase;
+  color: rgba(255,255,255,0.35); margin-bottom: 1rem;
+}
+.hb-svg {
+  width: 100%; height: 80px;
+  overflow: visible;
+}
+.hb-path {
+  fill: none; stroke: var(--rose-lt); stroke-width: 1.5;
+  stroke-dasharray: 400;
+  stroke-dashoffset: 400;
+  animation: drawHB 2s ease forwards 0.5s, hbLoop 3s ease-in-out infinite 2.5s;
+}
+@keyframes drawHB {
+  to { stroke-dashoffset: 0; }
+}
+@keyframes hbLoop {
+  0% { opacity: 1; }
+  90% { opacity: 1; }
+  95% { opacity: 0; }
+  96% { stroke-dashoffset: 400; opacity: 0; }
+  100% { stroke-dashoffset: 0; opacity: 1; }
+}
+.hb-risk {
+  display: flex; align-items: center; gap: 1rem;
+  margin-top: 1.8rem;
+  padding: 1rem 1.4rem;
+  background: rgba(232,180,172,0.1);
+  border: 1px solid rgba(232,180,172,0.2);
+  border-radius: 14px;
+}
+.risk-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: #4CAF9A;
+  box-shadow: 0 0 10px 3px rgba(76,175,154,0.5);
+  animation: dotBlink 1.8s ease-in-out infinite;
+}
+.risk-text { font-size: 0.82rem; color: rgba(255,255,255,0.65); }
+.risk-text strong { color: #4CAF9A; font-weight: 500; }
+.hb-glow {
+  position: absolute; bottom: -50px; right: -50px;
+  width: 200px; height: 200px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(200,135,122,0.25) 0%, transparent 70%);
+}
+
+/* AI features */
+.ai-features { display: flex; flex-direction: column; gap: 2rem; }
+.ai-feat {
+  display: flex; gap: 1.2rem; align-items: flex-start;
+  padding: 1.5rem;
+  border-radius: 18px;
+  border: 1px solid transparent;
+  transition: border-color 0.3s, background 0.3s;
+}
+.ai-feat:hover {
+  border-color: rgba(200,135,122,0.2);
+  background: rgba(245,232,230,0.5);
+}
+.ai-feat-icon {
+  width: 44px; height: 44px; border-radius: 14px; flex-shrink: 0;
+  background: linear-gradient(135deg, var(--blush), rgba(196,168,212,0.3));
+  border: 1px solid rgba(200,135,122,0.2);
+  display: flex; align-items: center; justify-content: center;
+}
+.ai-feat-icon svg {
+  width: 22px; height: 22px;
+  stroke: var(--rose); fill: none;
+  stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round;
+  filter: drop-shadow(0 0 4px rgba(200,135,122,0.3));
+}
+.ai-feat h4 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem; font-weight: 500; color: var(--plum);
+  margin-bottom: 0.35rem;
+}
+.ai-feat p {
+  font-size: 0.85rem; line-height: 1.6; color: var(--warm-gray);
+}
+
+/* ── IMPACT / CTA ───────────────────────────────── */
+#cta {
+  padding: 9rem 4rem;
+  background: var(--plum);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+#cta::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 50%, rgba(200,135,122,0.15) 0%, transparent 65%);
+}
+.cta-kpis {
+  display: flex; justify-content: center; gap: 5rem;
+  margin-bottom: 5rem; flex-wrap: wrap;
+}
+.cta-kpi .n {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 3.5rem; font-weight: 300;
+  color: var(--rose-lt); line-height: 1;
+  margin-bottom: 0.4rem;
+}
+.cta-kpi .l {
+  font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+}
+#cta .section-h2 { color: #fff; margin-bottom: 1.2rem; }
+#cta .section-h2 em { color: var(--rose-lt); }
+#cta p {
+  font-size: 1rem; color: rgba(255,255,255,0.5);
+  max-width: 500px; margin: 0 auto 3rem; line-height: 1.75;
+}
+.btn-cta {
+  padding: 1rem 3rem;
+  background: linear-gradient(135deg, var(--rose) 0%, #B5648C 100%);
+  color: #fff; border-radius: 100px;
+  font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase;
+  border: none; cursor: pointer; text-decoration: none;
+  display: inline-block;
+  transition: transform 0.25s, box-shadow 0.25s;
+  box-shadow: 0 8px 30px rgba(200,135,122,0.35);
+}
+.btn-cta:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 50px rgba(200,135,122,0.5);
+}
+
+/* ── FOOTER ─────────────────────────────────────── */
+footer {
+  padding: 2.5rem 4rem;
+  background: #180d1a;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 1rem;
+}
+.footer-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem; color: rgba(255,255,255,0.5);
+  letter-spacing: 0.05em;
+}
+.footer-logo span { color: var(--rose-lt); }
+.footer-text { font-size: 0.75rem; color: rgba(255,255,255,0.25); }
+
+/* ── RESPONSIVE ─────────────────────────────────── */
+@media (max-width: 900px) {
+  nav { padding: 1rem 1.5rem; }
+  .nav-links { display: none; }
+  .nav-cta { display: none; }
+  .nav-hamburger { display: block; }
+
+  #hero { padding: 7rem 1.5rem 3.5rem; min-height: 100svh; }
+  .hero-left { max-width: 100%; padding-right: 0; text-align: center; }
+  .hero-h1 { font-size: clamp(2.2rem, 8vw, 3rem); }
+  .hero-sub { max-width: 100%; font-size: 0.9rem; }
+  .hero-btns { justify-content: center; flex-direction: column; align-items: center; }
+  .hero-btns .btn-primary,
+  .hero-btns .btn-secondary { width: 100%; max-width: 320px; justify-content: center; }
+  .hero-trust { justify-content: center; }
+  .hero-artwork {
+    width: 85vw; right: auto; left: 50%; top: 50%;
+    min-width: 280px; max-width: 500px;
+    transform: translate(-50%, -50%) !important;
+    animation: none !important; opacity: 0.7;
+  }
+  .hero-artwork img { opacity: 0.4; }
+  .hero-eyebrow { font-size: 0.62rem; }
+  .scroll-ind { bottom: 1.5rem; }
+
+  .problem-grid, .ai-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  .problem-stats { grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .pstat { padding: 1.2rem; }
+  .pstat .n { font-size: 2rem; }
+
+  .eco-flow { flex-direction: column; gap: 1.5rem; }
+  .eco-connector { transform: rotate(90deg); width: 40px; max-width: 40px; height: 30px; }
+  .eco-icon { width: 72px; height: 72px; border-radius: 22px; }
+  .eco-icon svg { width: 28px; height: 28px; }
+
+  .ring-showcase { grid-template-columns: 1fr; gap: 2rem; }
+  .ring-large { max-width: 360px; }
+  .ring-video-frame { max-width: 360px; }
+  .sensor-grid { gap: 0.5rem; }
+  .sensor-chip { font-size: 0.72rem; padding: 0.5rem 1rem; }
+
+  .hb-container { padding: 1.5rem; }
+
+  section { padding: 5rem 1.5rem !important; }
+  .cta-kpis { gap: 2rem; }
+  .cta-kpi .n { font-size: 2.5rem; }
+  .btn-cta { padding: 0.9rem 2.5rem; font-size: 0.82rem; }
+
+  footer { padding: 2rem 1.5rem; flex-direction: column; text-align: center; }
+}
+
+@media (max-width: 480px) {
+  #hero { padding: 6rem 1.2rem 3rem; }
+  .hero-h1 { font-size: 2rem; }
+  .hero-sub { font-size: 0.85rem; }
+  .problem-stats { grid-template-columns: 1fr; }
+  .eco-flow { gap: 1rem; }
+  .section-h2 { font-size: 1.6rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#" class="nav-logo"><div>Kann<span>amma</span></div><small>AI-Powered Maternal Healthcare</small></a>
+  <ul class="nav-links">
+    <li><a href="#ring-reveal">Technology</a></li>
+    <li><a href="#ecosystem">Ecosystem</a></li>
+    <li><a href="#ai">AI Intelligence</a></li>
+    <li><a href="#cta">Impact</a></li>
+    <li><a href="#cta">About Us</a></li>
+  </ul>
+  <a href="#" class="nav-cta">Login / Register</a>
+  <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#ring-reveal" onclick="closeMobileMenu()">Technology</a>
+  <a href="#ecosystem" onclick="closeMobileMenu()">Ecosystem</a>
+  <a href="#ai" onclick="closeMobileMenu()">AI Intelligence</a>
+  <a href="#cta" onclick="closeMobileMenu()">Impact</a>
+  <a href="#cta" onclick="closeMobileMenu()">About Us</a>
+  <a href="#" class="mobile-cta" onclick="closeMobileMenu()">Login / Register</a>
+</div>
+
+<!-- PARTICLE CANVAS -->
+<canvas id="particles"></canvas>
+
+<!-- ═══ HERO ═══════════════════════════════════════ -->
+<section id="hero">
+  <!-- Atmospheric glow layers -->
+  <div class="hero-glow-1"></div>
+  <div class="hero-glow-2"></div>
+  <div class="hero-glow-3"></div>
+  <div class="hero-glow-4"></div>
+  <div class="hero-glow-5"></div>
+
+  <!-- Mother-baby artwork — embedded into atmosphere -->
+  <div class="hero-artwork" id="heroArtwork">
+    <div class="artwork-aura"></div>
+    <img src="mother-symbol.png" alt="">
+    <div class="artwork-rim"></div>
+  </div>
+
+  <!-- Left content -->
+  <div class="hero-left">
+    <div class="hero-eyebrow">AI-Powered Maternal Healthcare</div>
+    <h1 class="hero-h1">
+      Continuous<br>
+      <em>Maternal</em><br>
+      Healthcare Intelligence
+    </h1>
+    <p class="hero-sub">
+      An AI-powered ecosystem connecting mothers, ASHA workers, PHCs and hospitals through continuous real-time monitoring — securing the dangerous gap between ANC visits.
+    </p>
+    <div class="hero-btns">
+      <a href="#ecosystem" class="btn-primary">
+        Explore Ecosystem
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="#" class="btn-secondary">
+        <span class="login-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"/></svg></span>
+        Login / Register
+      </a>
+    </div>
+    <div class="hero-trust">
+      <div class="hero-trust-icon"><svg width="14" height="14" fill="none" stroke="var(--rose)" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+      <span>Trusted by healthcare professionals<br>Empowering safer motherhood</span>
+    </div>
+  </div>
+
+  <div class="scroll-ind">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- ═══ PROBLEM ════════════════════════════════════ -->
+<section id="problem">
+  <div class="section-eyebrow reveal">The Crisis</div>
+  <h2 class="section-h2 reveal">A dangerous gap between <em>every</em> clinic visit</h2>
+
+  <div class="problem-grid">
+    <div class="problem-text reveal reveal-delay-1">
+      <p>Pregnant women receive only 4–6 ANC visits across 9 months. Between visits: no monitoring, no alerts, no continuity of care.</p>
+      <p>When emergencies arrive, doctors lack vital health history. Complications develop silently. Every week of silence is a risk.</p>
+
+      <div class="anc-timeline">
+        <div class="timeline-label">Pregnancy journey — 40 weeks</div>
+        <div class="timeline-bar" id="timelineBar">
+          <div class="timeline-fill" id="timelineFill"></div>
+          <div class="timeline-dots">
+            <div class="tdot anc"><span class="tdot-label">ANC 1</span></div>
+            <div class="tdot gap"><span class="tdot-label">Gap</span></div>
+            <div class="tdot gap"><span class="tdot-label">Gap</span></div>
+            <div class="tdot anc"><span class="tdot-label">ANC 2</span></div>
+            <div class="tdot gap"><span class="tdot-label">Gap</span></div>
+            <div class="tdot anc"><span class="tdot-label">ANC 3</span></div>
+            <div class="tdot gap"><span class="tdot-label">Gap</span></div>
+            <div class="tdot gap"><span class="tdot-label">Gap</span></div>
+            <div class="tdot anc"><span class="tdot-label">ANC 4</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="problem-stats reveal reveal-delay-2">
+      <div class="pstat">
+        <div class="n" data-target="45000">0</div>
+        <div class="l">Maternal deaths every year in India</div>
+      </div>
+      <div class="pstat">
+        <div class="n" data-target="67">0</div>
+        <div class="l">% of complications occur between ANC visits</div>
+      </div>
+      <div class="pstat">
+        <div class="n" data-target="26">0</div>
+        <div class="l">Million pregnancies annually in India</div>
+      </div>
+      <div class="pstat">
+        <div class="n" data-target="2">0</div>
+        <div class="l">% of maternal health data is currently digital</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ RING REVEAL ════════════════════════════════ -->
+<section id="ring-reveal">
+  <!-- Atmospheric layers -->
+  <div class="ring-atmos-1"></div>
+  <div class="ring-atmos-2"></div>
+  <div class="ring-atmos-3"></div>
+
+  <div class="section-eyebrow reveal" style="justify-content:center">The Device</div>
+  <h2 class="section-h2 reveal" style="text-align:center">Meet the Kannamma <em>Smart Ring</em></h2>
+  <p class="reveal" style="text-align:center;color:var(--warm-gray);max-width:500px;margin:1rem auto 0;font-size:0.95rem;line-height:1.75">
+    Designed to feel like jewellery. Built to function like a medical device. Worn continuously. Monitoring silently.
+  </p>
+
+  <!-- Split media showcase -->
+  <div class="ring-showcase reveal reveal-delay-1">
+    <!-- Left — Product image -->
+    <div class="ring-image-wrap">
+      <div class="ring-image-glow"></div>
+      <img class="ring-large" src="ringcuff.jpeg" alt="Kannamma Smart Ring">
+    </div>
+    <!-- Right — Product video -->
+    <div class="ring-video-wrap">
+      <div class="ring-video-glow"></div>
+      <div class="ring-video-frame">
+        <video class="ring-video" autoplay muted loop playsinline>
+          <source src="assets/videos/ring-showcase.mp4" type="video/mp4">
+        </video>
+      </div>
+    </div>
+  </div>
+
+  <div class="sensor-grid reveal reveal-delay-2">
+    <div class="sensor-chip"><span class="sensor-dot"></span>Heart Rate</div>
+    <div class="sensor-chip"><span class="sensor-dot" style="animation-delay:0.4s"></span>SpO₂ Monitoring</div>
+    <div class="sensor-chip"><span class="sensor-dot" style="animation-delay:0.8s"></span>Body Temperature</div>
+    <div class="sensor-chip"><span class="sensor-dot" style="animation-delay:1.2s"></span>Activity Tracking</div>
+    <div class="sensor-chip"><span class="sensor-dot" style="animation-delay:1.6s"></span>SOS Emergency</div>
+    <div class="sensor-chip"><span class="sensor-dot" style="animation-delay:2s"></span>7-Day Battery</div>
+  </div>
+</section>
+
+<!-- ═══ ECOSYSTEM ══════════════════════════════════ -->
+<section id="ecosystem">
+  <div class="section-eyebrow reveal" style="justify-content:center">Connected Care</div>
+  <h2 class="section-h2 reveal" style="text-align:center">The <em>Ecosystem</em></h2>
+  <p class="reveal" style="text-align:center;color:var(--warm-gray);max-width:480px;margin:1rem auto 0;font-size:0.95rem;line-height:1.75">
+    Every stakeholder connected. Every signal monitored. Every emergency intercepted before it becomes critical.
+  </p>
+
+  <div class="eco-flow reveal reveal-delay-1">
+    <div class="eco-node">
+      <div class="eco-icon"><svg viewBox="0 0 24 24"><path d="M12 2a4 4 0 0 1 4 4 4 4 0 0 1-4 4 4 4 0 0 1-4-4 4 4 0 0 1 4-4z"/><path d="M16 22H8a2 2 0 0 1-2-2v-1a6 6 0 0 1 12 0v1a2 2 0 0 1-2 2z"/><circle cx="17" cy="18" r="2"/></svg></div>
+      <div class="eco-name">Mother</div>
+      <div class="eco-role">Wears smart ring</div>
+    </div>
+    <div class="eco-connector">
+      <div class="connector-line"><div class="connector-dot"></div></div>
+    </div>
+    <div class="eco-node">
+      <div class="eco-icon"><svg viewBox="0 0 24 24"><path d="M12 2a4 4 0 0 1 4 4 4 4 0 0 1-4 4 4 4 0 0 1-4-4 4 4 0 0 1 4-4z"/><path d="M16 22H8a2 2 0 0 1-2-2v-1a6 6 0 0 1 12 0v1a2 2 0 0 1-2 2z"/><path d="M9 14h6"/><path d="M12 11v6"/></svg></div>
+      <div class="eco-name">ASHA Worker</div>
+      <div class="eco-role">Receives alerts</div>
+    </div>
+    <div class="eco-connector">
+      <div class="connector-line"><div class="connector-dot"></div></div>
+    </div>
+    <div class="eco-node">
+      <div class="eco-icon"><svg viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="14" rx="2"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/><path d="M9 14h6"/><path d="M12 11v6"/></svg></div>
+      <div class="eco-name">PHC</div>
+      <div class="eco-role">Reviews dashboard</div>
+    </div>
+    <div class="eco-connector">
+      <div class="connector-line"><div class="connector-dot"></div></div>
+    </div>
+    <div class="eco-node">
+      <div class="eco-icon"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="16" rx="2"/><path d="M2 10h20"/><path d="M9 6V2"/><path d="M15 6V2"/><path d="M9 15h6"/><path d="M12 12v6"/></svg></div>
+      <div class="eco-name">Hospital</div>
+      <div class="eco-role">Full health history</div>
+    </div>
+  </div>
+
+  <div class="reveal reveal-delay-2" style="text-align:center;margin-top:3rem">
+    <p style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--plum);font-style:italic">
+      "Zero gaps. Continuous care. Every mother. Every week."
+    </p>
+  </div>
+</section>
+
+<!-- ═══ AI SECTION ═════════════════════════════════ -->
+<section id="ai">
+  <div class="section-eyebrow reveal">Intelligence Layer</div>
+  <h2 class="section-h2 reveal">AI that <em>predicts</em>, not just monitors</h2>
+
+  <div class="ai-grid">
+    <div class="ai-visual reveal reveal-delay-1">
+      <div class="hb-container">
+        <div class="hb-label">Live Maternal Signal — Continuous</div>
+        <svg class="hb-svg" viewBox="0 0 400 80">
+          <path class="hb-path" d="M0,40 L60,40 L75,40 L82,10 L90,70 L98,5 L106,75 L114,40 L130,40 L200,40 L215,40 L222,15 L230,65 L238,8 L246,72 L254,40 L280,40 L340,40 L355,40 L362,18 L370,62 L378,12 L386,68 L394,40 L400,40"/>
+        </svg>
+        <div class="hb-risk">
+          <div class="risk-dot"></div>
+          <div class="risk-text">AI Risk Score: <strong>Low — Normal Range</strong></div>
+        </div>
+        <div class="hb-glow"></div>
+      </div>
+    </div>
+
+    <div class="ai-features">
+      <div class="ai-feat reveal reveal-delay-1">
+        <div class="ai-feat-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg></div>
+        <div>
+          <h4>Predictive Risk Scoring</h4>
+          <p>AI analyses continuous vitals to detect preeclampsia, anemia progression, and gestational diabetes indicators before symptoms appear.</p>
+        </div>
+      </div>
+      <div class="ai-feat reveal reveal-delay-2">
+        <div class="ai-feat-icon"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/><path d="M12 2v2"/></svg></div>
+        <div>
+          <h4>Instant ASHA Alerts</h4>
+          <p>When risk elevates, the nearest ASHA worker is notified within seconds — with context, history, and recommended action.</p>
+        </div>
+      </div>
+      <div class="ai-feat reveal reveal-delay-3">
+        <div class="ai-feat-icon"><svg viewBox="0 0 24 24"><path d="M3 3h18v18H3z" fill="none"/><path d="M3 12h4l3-9 4 18 3-9h4"/></svg></div>
+        <div>
+          <h4>Longitudinal Health Record</h4>
+          <p>Every data point across 9 months builds a complete maternal health graph — available to doctors in real time during emergencies.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CTA ════════════════════════════════════════ -->
+<section id="cta">
+  <div class="cta-kpis reveal">
+    <div class="cta-kpi">
+      <div class="n" data-target="26" data-suffix="M+">0</div>
+      <div class="l">Annual pregnancies in India</div>
+    </div>
+    <div class="cta-kpi">
+      <div class="n" data-target="45000">0</div>
+      <div class="l">Preventable maternal deaths</div>
+    </div>
+    <div class="cta-kpi">
+      <div class="n" data-target="0" data-fixed="₹0">₹0</div>
+      <div class="l">Dominant digital solution exists</div>
+    </div>
+  </div>
+
+  <h2 class="section-h2 reveal" style="color:#fff;margin-bottom:1.2rem">
+    The future of <em>maternal healthcare</em><br>begins here
+  </h2>
+  <p class="reveal reveal-delay-1">
+    Join hospitals, researchers and healthcare leaders building the operating system for maternal care in India.
+  </p>
+  <a href="#" class="btn-cta reveal reveal-delay-2">Login / Register</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Kann<span>amma</span></div>
+  <div class="footer-text">© 2025 Kannamma Health Technologies · Bengaluru, India</div>
+  <div class="footer-text">Patent No. 202541120588</div>
+</footer>
+
+<script>
+/* ── MOBILE MENU ────────────────────────────────── */
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('active');
+  mobileMenu.classList.toggle('open');
+  document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+});
+function closeMobileMenu() {
+  hamburger.classList.remove('active');
+  mobileMenu.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+/* ── SCROLL NAV ──────────────────────────────────── */
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
+});
+
+/* ── REVEAL ON SCROLL ────────────────────────────── */
+const revealEls = document.querySelectorAll('.reveal');
+const ro = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); }
+  });
+}, { threshold: 0.12 });
+revealEls.forEach(el => ro.observe(el));
+
+/* ── PARALLAX ON HERO ARTWORK ───────────────────── */
+const heroArtwork = document.getElementById('heroArtwork');
+document.addEventListener('mousemove', e => {
+  if (!heroArtwork) return;
+  const cx = window.innerWidth / 2, cy = window.innerHeight / 2;
+  const dx = (e.clientX - cx) / cx;
+  const dy = (e.clientY - cy) / cy;
+  heroArtwork.style.transform = `translateY(calc(-50% + ${dy * -6}px)) translateX(${dx * -4}px)`;
+});
+
+/* ── PARTICLES ───────────────────────────────────── */
+const canvas = document.getElementById('particles');
+const ctx = canvas.getContext('2d');
+let W, H, particles = [];
+
+function resize() {
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+const COLORS = ['rgba(200,135,122,', 'rgba(196,168,212,', 'rgba(232,180,172,'];
+
+for (let i = 0; i < 55; i++) {
+  particles.push({
+    x: Math.random() * 1400, y: Math.random() * 900,
+    r: Math.random() * 3 + 1.5,
+    vx: (Math.random() - 0.5) * 0.35,
+    vy: (Math.random() - 0.5) * 0.35,
+    c: COLORS[Math.floor(Math.random() * COLORS.length)],
+    o: Math.random() * 0.5 + 0.15,
+    phase: Math.random() * Math.PI * 2,
+  });
+}
+
+function drawParticles(t) {
+  ctx.clearRect(0, 0, W, H);
+  particles.forEach(p => {
+    p.x += p.vx; p.y += p.vy;
+    if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
+    if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
+    const alpha = p.o + Math.sin(t * 0.001 + p.phase) * 0.15;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fillStyle = p.c + alpha + ')';
+    ctx.fill();
+  });
+  requestAnimationFrame(drawParticles);
+}
+requestAnimationFrame(drawParticles);
+
+/* ── ANIMATED COUNTERS ───────────────────────────── */
+function animCount(el, target, suffix) {
+  const start = performance.now();
+  const dur = 2000;
+  (function upd(now) {
+    const p = Math.min((now - start) / dur, 1);
+    const ease = 1 - Math.pow(1 - p, 3);
+    const val = Math.round(ease * target);
+    el.textContent = (target >= 1000 ? val.toLocaleString() : val) + (suffix || '');
+    if (p < 1) requestAnimationFrame(upd);
+  })(performance.now());
+}
+
+const counterObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const el = e.target;
+    const target = parseInt(el.dataset.target);
+    const suffix = el.dataset.suffix || '';
+    if (!isNaN(target) && target > 0) animCount(el, target, suffix);
+    counterObs.unobserve(el);
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('[data-target]').forEach(el => counterObs.observe(el));
+
+/* ── TIMELINE ANIMATION ──────────────────────────── */
+const tlObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      document.getElementById('timelineFill').style.width = '100%';
+    }
+  });
+}, { threshold: 0.3 });
+const tl = document.getElementById('timelineBar');
+if (tl) tlObs.observe(tl);
+</script>
+</body>
+</html>

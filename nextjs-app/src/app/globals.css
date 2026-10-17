@@ -1,0 +1,194 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --rose: #C8877A;
+  --rose-lt: #E8B4AC;
+  --blush: #F5E8E6;
+  --plum: #2A1525;
+  --plum-mid: #4A2040;
+  --lavender: #C4A8D4;
+  --lav-lt: #EDE4F5;
+  --cream: #FEFAF8;
+  --warm-gray: #8A7A82;
+  --gold: #B8906A;
+}
+
+/* ── MEDICAL OS THEME (Mother Module) ────────── */
+.mother-theme {
+  --surface-primary: #0A0A12;
+  --surface-secondary: #07070D;
+  --surface-card: rgba(255, 255, 255, 0.03);
+  --surface-card-hover: rgba(255, 255, 255, 0.06);
+  --border-subtle: rgba(255, 255, 255, 0.06);
+  --border-hover: rgba(255, 255, 255, 0.1);
+  --text-primary: #E8E4F0;
+  --text-secondary: #8A7A92;
+  --text-muted: rgba(138, 122, 146, 0.6);
+  --accent-rose: #C8877A;
+  --accent-lavender: #C4A8D4;
+  --status-normal: #34D399;
+  --status-warning: #FBBF24;
+  --status-critical: #EF4444;
+}
+
+/* Mother module scrollbar override */
+.mother-theme ::-webkit-scrollbar-track {
+  background: #0A0A12;
+}
+.mother-theme ::-webkit-scrollbar-thumb {
+  background: rgba(200, 135, 122, 0.2);
+}
+.mother-theme ::-webkit-scrollbar-thumb:hover {
+  background: rgba(200, 135, 122, 0.4);
+}
+
+/* Safe area for mobile bottom nav */
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* ── GLOBAL RESET ─────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--cream);
+  color: var(--plum);
+  overflow-x: hidden;
+}
+
+/* ── SELECTION ────────────────────────────────── */
+::selection {
+  background: rgba(200, 135, 122, 0.25);
+  color: var(--plum);
+}
+
+/* ── SCROLLBAR (subtle) ───────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--cream);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(200, 135, 122, 0.35);
+  border-radius: 100px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--rose);
+}
+
+/* ── ANIMATION UTILITIES ──────────────────────── */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Mask for hero artwork */
+  .mask-radial-artwork {
+    mask-image: radial-gradient(
+      ellipse 78% 82% at 48% 50%,
+      black 25%,
+      rgba(0, 0, 0, 0.6) 45%,
+      rgba(0, 0, 0, 0.2) 62%,
+      transparent 78%
+    );
+    -webkit-mask-image: radial-gradient(
+      ellipse 78% 82% at 48% 50%,
+      black 25%,
+      rgba(0, 0, 0, 0.6) 45%,
+      rgba(0, 0, 0, 0.2) 62%,
+      transparent 78%
+    );
+  }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Hero content staggered fade-up animations (CSS, not JS-dependent) */
+.hero-fadeup {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeUp 0.9s ease-out forwards;
+}
+.hero-fadeup-1 { animation-delay: 0.3s; }
+.hero-fadeup-2 { animation-delay: 0.5s; }
+.hero-fadeup-3 { animation-delay: 0.7s; }
+.hero-fadeup-4 { animation-delay: 0.9s; }
+.hero-fadeup-5 { animation-delay: 1.2s; }
+.hero-fadeup-6 { animation-delay: 1.6s; }
+
+/* ── CUSTOM KEYFRAMES (for inline style refs) ─── */
+@keyframes artworkReveal {
+  0% { opacity: 0; transform: translateY(-48%) scale(0.97); filter: blur(15px); }
+  100% { opacity: 1; transform: translateY(-50%) scale(1); filter: blur(0px); }
+}
+@keyframes glowDrift {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.8; }
+  33% { transform: translate(20px, -30px) scale(1.06); opacity: 1; }
+  66% { transform: translate(-15px, 15px) scale(0.96); opacity: 0.7; }
+}
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.06); }
+}
+@keyframes symbolGlowPulse {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.04); }
+}
+@keyframes connTravel {
+  0% { left: 0%; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { left: 100%; opacity: 0; }
+}
+@keyframes scrollPulse {
+  0%, 100% { opacity: 1; transform: scaleY(1); }
+  50% { opacity: 0.4; transform: scaleY(0.6); }
+}
+@keyframes gapPulse {
+  0%, 100% { border-color: rgba(255,100,100,0.3); }
+  50% { border-color: rgba(255,100,100,0.8); transform: scale(1.3); }
+}
+@keyframes dotBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+@keyframes ringFloat {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-14px) scale(1.01); }
+}
+
+/* ── HEARTBEAT SVG ────────────────────────────── */
+.hb-path {
+  fill: none;
+  stroke: var(--rose-lt);
+  stroke-width: 1.5;
+  stroke-dasharray: 400;
+  stroke-dashoffset: 400;
+}
+.hb-path.animate {
+  animation: drawHB 2s ease forwards, hbLoop 3s ease-in-out infinite 2.5s;
+}
+@keyframes drawHB {
+  to { stroke-dashoffset: 0; }
+}
+@keyframes hbLoop {
+  0% { opacity: 1; }
+  90% { opacity: 1; }
+  95% { opacity: 0; }
+  96% { stroke-dashoffset: 400; opacity: 0; }
+  100% { stroke-dashoffset: 0; opacity: 1; }
+}

@@ -1,0 +1,81 @@
+// Kannamma - Core Database Schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Mother {
+  id       String  @id @default(cuid())
+  name     String
+  age      Int
+  phone    String?
+  address  String?
+  village  String?
+  district String?
+
+  bloodGroup      String?
+  gravida         Int?
+  gestationalWeek Int?
+  weight          Float?
+  height          Float?
+  hbLevel         Float?
+
+  // ML model inputs
+  systolicBP  Float?
+  diastolicBP Float?
+  bloodSugar  Float?
+  bodyTemp    Float?
+  heartRate   Float?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  riskAssessments RiskAssessment[]
+  visits          Visit[]
+}
+
+model RiskAssessment {
+  id       String @id @default(cuid())
+  motherId String
+
+  riskLevel           String
+  highRiskProbability Float
+  midRiskProbability  Float
+  lowRiskProbability  Float
+
+  modelVersion String   @default("RF-v0.1")
+  createdAt    DateTime @default(now())
+
+  mother Mother @relation(fields: [motherId], references: [id], onDelete: Cascade)
+
+  @@index([motherId])
+}
+
+model Visit {
+  id       String @id @default(cuid())
+  motherId String
+
+  date String
+  time String
+
+  status String  @default("pending")
+  notes  String?
+
+  bpLogged      String?
+  weightLogged  Float?
+  hbLogged      Float?
+  medsCompliant Boolean?
+
+  createdAt   DateTime  @default(now())
+  completedAt DateTime?
+
+  mother Mother @relation(fields: [motherId], references: [id], onDelete: Cascade)
+
+  @@index([motherId])
+}
